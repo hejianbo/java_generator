@@ -1,4 +1,18 @@
 package {{ package_name }};
 
+import {{ entity_package_name }}.{{ entity_class_name }};
+
 public interface {{ class_name }} {
+    /**
+     * 添加 {{ entity_class_variable }}
+     * @param {{ entity_class_variable }}
+     */
+    void insert({{ entity_class_name }} {{ entity_class_variable }});
+
+    /**
+     * 根据主键查询 {{ entity_class_variable }}
+     * @param productId
+     * @return
+     */
+    {{ entity_class_name }} selectByPrimaryKey(Integer productId);
 }

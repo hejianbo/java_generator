@@ -9,10 +9,46 @@ from parser.entity_parser import EntityParser
 from parser.common_parser import CommonParser
 
 
+def generate_mapper_xml(table_columns):
+    """
+    生成mapper.xml
+    :param table_columns: 表结构列数详细信息
+    :return:
+    """
+    pass
+
+
+def generate_mapper(table_columns):
+    """
+    生成mapper类
+    :param table_columns: 表结构列数详细信息
+    :return:
+    """
+    pass
+
+
+def generate_dao(table_columns):
+    """
+    生成dao实现类
+    :param table_columns: 表结构列数详细信息
+    :return:
+    """
+    pass
+
+
+def generate_dao_interface(table_columns):
+    """
+    生成dao接口
+    :param table_columns: 表结构列数详细信息
+    :return:
+    """
+    pass
+
+
 def generate_entity(table_columns):
     """
     根据表列信息生成Java实体
-    :param table_columns:
+    :param table_columns: 表结构列数详细信息
     :return:
     """
     entity_parser = EntityParser(table_columns)
@@ -54,7 +90,9 @@ if __name__ == "__main__":
             rows = cursor.fetchall()
             # 生成Java实体
             generate_entity(rows)
-            # 生成dao
+            generate_mapper(rows)
+            generate_dao(rows)
+            generate_dao_interface(rows)
 
     finally:
         # 关闭数据库
