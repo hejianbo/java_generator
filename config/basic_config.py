@@ -7,3 +7,5 @@ entity_package = base_package + ".service.dao.entity"
 
 service_package = base_package + ".service"
 
+# 代码输出根路径
+output_dir = "/home/jianbo/output"

@@ -1,6 +1,41 @@
-import config.db_config
-import config.basic_config
+import pymysql
+import os
+
+from jinja2 import Environment, FileSystemLoader
+
+import config.db_config as DbConfig
+import config.basic_config as BasicConfig
+from parser.entity_parser import EntityParser
+from parser.common_parser import CommonParser
 
 
 if __name__ == "__main__":
-    pass
+    # 获取当前所在目录
+    current_dir = os.path.dirname(__file__)
+    # 根据FileSystemLoader获取Environment
+    env = Environment(loader=FileSystemLoader(os.path.join(current_dir, 'template')))
+
+    try:
+        # 打开数据库连接
+        db = pymysql.connect(host=DbConfig.db_host, database=DbConfig.database, user=DbConfig.db_user, password=DbConfig.db_password)
+        # 创建cursor
+        cursor = db.cursor()
+        # 循环处理每个数据库表
+        for table in DbConfig.tables.split(","):
+            # 使用execute执行sql
+            cursor.execute("desc " + table)
+            table_columns = cursor.fetchall()
+            entity_parser = EntityParser(table_columns)
+            # 转换为java中的字段
+            java_fields = entity_parser.parse()
+            # 获取类名
+            class_name = CommonParser.get_class_name(table)
+            # 获取报名
+            package_name = BasicConfig.entity_package
+            # 获取模板文件
+            template = env.get_template("dao/entity.java.jinja2")
+            print(template.render(java_fields=java_fields, class_name=class_name, package_name=package_name))
+
+    finally:
+        # 关闭数据库
+        db.close()

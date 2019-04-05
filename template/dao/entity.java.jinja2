@@ -1,0 +1,10 @@
+package {{ package_name }};
+
+import lombok.Data;
+
+@Data
+public class {{ class_name }} {
+    {% for item in java_fields %}
+    private {{ item[0] }} {{ item[1] }};
+    {% endfor %}
+}
