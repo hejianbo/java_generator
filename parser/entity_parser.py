@@ -16,11 +16,58 @@ class EntityParser(object):
         for column in self.columns:
             field_name = column[0]
             field_type = column[1].lower()
-            result.append((EntityParser.get_class_type(field_type), EntityParser.get_class_name(field_name)))
+
+            java_property_name = EntityParser.get_java_property_name(field_name)
+            java_property_type = EntityParser.get_java_property_type(field_type)
+
+            jdbc_field_name = field_name
+            jdbc_field_type = EntityParser.get_jdbc_type(field_type)
+
+            is_primary_key = "PRI" in column[3]
+            is_auto_increment = "auto_increment" in column[5]
+
+            result.append({
+                "property": java_property_name,
+                "property_type": java_property_type,
+                "column": jdbc_field_name,
+                "jdbc_type": jdbc_field_type,
+                "is_primary": is_primary_key,
+                "is_auto_increment": is_auto_increment
+            })
         return result
 
     @staticmethod
-    def get_class_name(field_name):
+    def get_jdbc_type(field_type):
+        if field_type.startswith('tinyint'):
+            return 'BOOLEAN'
+        if field_type.startswith('boolean'):
+            return 'BOOLEAN'
+        if field_type.startswith('smallint'):
+            return 'SMALLINT'
+        if field_type.startswith('int'):
+            return "INTEGER"
+        if field_type.startswith('bigint'):
+            return "BIGINT"
+        if field_type.startswith('float'):
+            return "FLOAT"
+        if field_type.startswith('double'):
+            return "DOUBLE"
+        if field_type.startswith('decimal'):
+            return "DECIMAL"
+        if field_type.startswith('varchar'):
+            return 'VARCHAR'
+        if field_type.startswith('char'):
+            return 'CHAR'
+        if field_type.startswith('text'):
+            return 'TEXT'
+        if field_type.startswith('timestamp'):
+            return 'TIMESTAMP'
+        if field_type.startswith('date'):
+            return 'DATE'
+        raise Exception("不支持的数据库型: ", field_type)
+
+    @staticmethod
+    def get_java_property_name(field_name):
         """
         将数据库名称转换为Java对应的属性名称
         :param field_name: 数据库字段名称
@@ -37,7 +84,7 @@ class EntityParser(object):
         return first_word + ''.join([word.capitalize() for word in other_words])
 
     @staticmethod
-    def get_class_type(field_type):
+    def get_java_property_type(field_type):
         """
         根据数据库类型获取Java对应的类型
         :param field_type: 数据库类型
