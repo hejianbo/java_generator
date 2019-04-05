@@ -1,0 +1,6 @@
+import config.db_config
+import config.basic_config
+
+
+if __name__ == "__main__":
+    pass
