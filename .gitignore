@@ -105,3 +105,6 @@ venv.bak/
 
 # pycharm
 .idea
+
+# 模板输出目录
+.output/*

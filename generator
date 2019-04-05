@@ -12,6 +12,8 @@ from parser.common_parser import CommonParser
 if __name__ == "__main__":
     # 获取当前所在目录
     current_dir = os.path.dirname(__file__)
+    # 文件输出目录
+    output_dir = os.path.join(current_dir, ".output")
     # 根据FileSystemLoader获取Environment
     env = Environment(loader=FileSystemLoader(os.path.join(current_dir, 'template')))
 
@@ -34,7 +36,14 @@ if __name__ == "__main__":
             package_name = BasicConfig.entity_package
             # 获取模板文件
             template = env.get_template("dao/entity.java.jinja2")
-            print(template.render(java_fields=java_fields, class_name=class_name, package_name=package_name))
+            response = template.render(java_fields=java_fields, class_name=class_name, package_name=package_name)
+
+            entity_output_dir = os.path.join(output_dir, *package_name.split('.'))
+            if not os.path.exists(entity_output_dir):
+                os.makedirs(entity_output_dir)
+
+            with open(os.path.join(entity_output_dir, class_name + 'java'), r'w') as f:
+                f.write(response)
 
     finally:
         # 关闭数据库
