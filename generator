@@ -9,6 +9,31 @@ from parser.entity_parser import EntityParser
 from parser.common_parser import CommonParser
 
 
+def generate_entity(table_columns):
+    """
+    根据表列信息生成Java实体
+    :param table_columns:
+    :return:
+    """
+    entity_parser = EntityParser(table_columns)
+    # 转换为java中的字段
+    java_fields = entity_parser.parse()
+    # 获取类名
+    class_name = CommonParser.get_class_name(table)
+    # 获取报名
+    package_name = BasicConfig.entity_package
+    # 获取模板文件
+    template = env.get_template("dao/entity.jinja2")
+    response = template.render(java_fields=java_fields, class_name=class_name, package_name=package_name)
+
+    entity_output_dir = os.path.join(output_dir, *package_name.split('.'))
+    if not os.path.exists(entity_output_dir):
+        os.makedirs(entity_output_dir)
+
+    with open(os.path.join(entity_output_dir, class_name + 'java'), r'w') as f:
+        f.write(response)
+
+
 if __name__ == "__main__":
     # 获取当前所在目录
     current_dir = os.path.dirname(__file__)
@@ -26,24 +51,10 @@ if __name__ == "__main__":
         for table in DbConfig.tables.split(","):
             # 使用execute执行sql
             cursor.execute("desc " + table)
-            table_columns = cursor.fetchall()
-            entity_parser = EntityParser(table_columns)
-            # 转换为java中的字段
-            java_fields = entity_parser.parse()
-            # 获取类名
-            class_name = CommonParser.get_class_name(table)
-            # 获取报名
-            package_name = BasicConfig.entity_package
-            # 获取模板文件
-            template = env.get_template("dao/entity.java.jinja2")
-            response = template.render(java_fields=java_fields, class_name=class_name, package_name=package_name)
-
-            entity_output_dir = os.path.join(output_dir, *package_name.split('.'))
-            if not os.path.exists(entity_output_dir):
-                os.makedirs(entity_output_dir)
-
-            with open(os.path.join(entity_output_dir, class_name + 'java'), r'w') as f:
-                f.write(response)
+            rows = cursor.fetchall()
+            # 生成Java实体
+            generate_entity(rows)
+            # 生成dao
 
     finally:
         # 关闭数据库

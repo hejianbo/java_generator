@@ -1,0 +1,10 @@
+package {{ package_name }};
+
+import java.util.List;
+import {{ entity_package_name }}.{{ entity_class_name }};
+
+public interface {{ class_name }} {
+    int insertSelective({{ entity_class_name }} record);
+
+    {{ entity_class_name }} selectByPrimaryKey(Integer categoryId);
+}
