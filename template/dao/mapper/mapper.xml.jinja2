@@ -37,7 +37,7 @@
     </where>
   </update>
 
-  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
     select
         <include refid="BaseColumns" />
     from <include refid="BaseTableName" />

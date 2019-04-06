@@ -54,7 +54,7 @@ def generate_mapper(table_columns):
     table_name_parser = TableNameParser(table)
     names = table_name_parser.get_all_names()
     primary_keys = ', '.join(
-    [column['property_type'] + ' ' + column['property'] for column in columns if column['is_primary'] is True])
+    ['@Param("' + column['property'] + '")' + column['property_type'] + ' ' + column['property'] for column in columns if column['is_primary'] is True])
 
     # 获取模板文件
     template = env.get_template("dao/mapper.jinja2")

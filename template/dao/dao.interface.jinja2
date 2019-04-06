@@ -17,9 +17,9 @@ public interface {{ names['dao_interface_name'] }} {
     {{ names['entity_name'] }} selectByPrimaryKey({{ primary_keys }});
 
     /**
-     * 更新 {{ names['entity_variable_name'] }}{% for column in columns%}{% if column['is_primary'] %}
-     * @param {{ column['property'] }}{% endif %}{% endfor %}
+     * 更新 {{ names['entity_name'] }}
+     * @param {{ names['entity_variable_name'] }}
      * @return
      */
-    void updateSelectiveByPrimaryKey({{ primary_keys }});
+    void updateSelectiveByPrimaryKey({{ names['entity_name'] }} {{ names['entity_variable_name'] }});
 }
