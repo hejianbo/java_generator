@@ -43,3 +43,23 @@ class TableNameParser(object):
 
     def get_service_name(self):
         return self.class_name + "ServiceImpl"
+
+    def get_all_names(self):
+        """
+        获取所有需要解析出来的名称
+        :return:
+        """
+        return {
+            "entity_name": self.get_entity_name(),
+            "entity_package_name": config.entity_package,
+            "entity_variable_name": self.get_entity_variable(),
+            "dao_name": self.get_dao_name(),
+            "dao_variable_name": self.get_dao_variable(),
+            "dao_package_name": config.dao_impl_package,
+            "dao_interface_name": self.get_dao_interface_name(),
+            "dao_interface_variable_name": self.get_dao_interface_variable(),
+            "dao_interface_package_name": config.dao_package,
+            "mapper_name": self.get_mapper_name(),
+            "mapper_package_name": config.mapper_package,
+            "mapper_variable_name": self.get_mapper_variable(),
+        }

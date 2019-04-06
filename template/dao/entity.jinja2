@@ -1,9 +1,9 @@
-package {{ package_name }};
+package {{ names["entity_package_name"] }};
 
 import lombok.Data;
 
 @Data
-public class {{ class_name }} {
+public class {{ names["entity_name"] }} {
     {% for item in java_fields %}
     private {{ item["property_type"] }} {{ item["property"] }};
     {% endfor %}
