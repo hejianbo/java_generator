@@ -1,5 +1,6 @@
 import pymysql
 import os
+import shutil
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -159,6 +160,9 @@ if __name__ == "__main__":
     current_dir = os.path.dirname(__file__)
     # 文件输出目录
     output_dir = os.path.join(current_dir, ".output")
+    # 清空输出文件夹
+    shutil.rmtree(output_dir)
+
     # 根据FileSystemLoader获取Environment
     env = Environment(loader=FileSystemLoader(os.path.join(current_dir, 'template')))
 
