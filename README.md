@@ -1,4 +1,4 @@
-# 根据MySQL表结构生成DAO层代码
+# 根据MySQL表结构生成MyBatis的DAO层代码
 
 ## 生成的代码结构如下
 默认生成的结构如下, 可以自己根据config.basic_config里的值进行修改调整
