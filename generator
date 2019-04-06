@@ -87,10 +87,13 @@ def generate_dao(table_columns):
     names = table_name_parser.get_all_names()
     primary_keys = ', '.join(
         [column['property_type'] + ' ' + column['property'] for column in columns if column['is_primary'] is True])
+    primary_keys_exclude_type = ', '.join(
+        [column['property'] for column in columns if column['is_primary'] is True])
 
     # 获取模板文件
     template = env.get_template("dao/dao.jinja2")
-    response = template.render(columns=columns, names=names, primary_keys=primary_keys)
+    response = template.render(columns=columns, names=names, primary_keys=primary_keys
+                               , primary_keys_exclude_type=primary_keys_exclude_type)
 
     mapper_output_dir = os.path.join(output_dir, *config.dao_package.split('.'))
     if not os.path.exists(mapper_output_dir):

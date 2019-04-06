@@ -14,10 +14,10 @@ public class {{ names['dao_name'] }} implements {{ names['dao_interface_name'] }
     private {{ names['mapper_name'] }} {{ names['mapper_variable_name'] }};
 
     public void insert({{ names['entity_name'] }} {{ names['entity_variable_name'] }}) {
-        this.{{ names['mapper_variable_name'] }}.insert({{ names['entity_variable_name'] }});
+        this.{{ names['mapper_variable_name'] }}.insertSelective({{ names['entity_variable_name'] }});
     }
 
     public {{ names['entity_name'] }} selectByPrimaryKey({{ primary_keys }}) {
-        return this.{{ names['mapper_variable_name'] }}.selectByPrimaryKey({{ primary_keys }});
+        return this.{{ names['mapper_variable_name'] }}.selectByPrimaryKey({{ primary_keys_exclude_type }});
     }
 }
