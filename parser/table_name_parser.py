@@ -4,6 +4,7 @@ import config.basic_config as config
 class TableNameParser(object):
 
     def __init__(self, table_name):
+        self.table_name = table_name
         # 首先将表名的前缀给去掉
         table_name = table_name.lstrip(config.table_prefix)
 
@@ -50,6 +51,7 @@ class TableNameParser(object):
         :return:
         """
         return {
+            "table_name": self.table_name,
             "entity_name": self.get_entity_name(),
             "entity_package_name": config.entity_package,
             "entity_variable_name": self.get_entity_variable(),

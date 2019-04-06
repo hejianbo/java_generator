@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="{{ mapper_package_name }}.{{ mapper_class_name }}">
-  <resultMap id="BaseResultMap" type="{{ entity_package_name }}.{{ entity_class_name }}">
-    <id column="category_id" jdbcType="INTEGER" property="categoryId" />
-    <id column="language_id" jdbcType="INTEGER" property="languageId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="meta_title" jdbcType="VARCHAR" property="metaTitle" />
-    <result column="meta_description" jdbcType="VARCHAR" property="metaDescription" />
-    <result column="meta_keyword" jdbcType="VARCHAR" property="metaKeyword" />
-    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+<mapper namespace="{{ names['mapper_package_name'] }}.{{ names['mapper_name'] }}">
+  <resultMap id="BaseResultMap" type="{{ names['entity_package_name'] }}.{{ names['entity_name'] }}">{% for column in columns%}{% if column['is_primary'] %}
+    <id column="{{ column['column'] }}" jdbcType="{{ column['jdbc_type'] }}" property="{{ column['property'] }}" />{% else %}
+    <result column="{{ column['column'] }}" jdbcType="{{ column['jdbc_type'] }}" property="{{ column['property'] }}" />{% endif %}{% endfor %}
   </resultMap>
 
   <sql id="BaseTableName">
-    {{ table_name }} as base
+    `{{ names['table_name'] }}` as base
   </sql>
 
   <sql id="BaseColumns">
-
+    {%for column in columns%}{%if loop.index != 1 %}, {% endif %}base.`{{ column['column'] }}`{% endfor %}
   </sql>
 
-  <insert id="insertSelective" parameterType="jmall.pms.service.dao.entity.CategoryDescriptionEntity"
-        keyColumn="" useGeneratedKeys="true" keyProperty="">
-    insert into <include refid="BaseTableName" /> (category_id, language_id, name,
-      meta_title, meta_description, meta_keyword,
-      description)
-    values (#{categoryId,jdbcType=INTEGER}, #{languageId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
-      #{metaTitle,jdbcType=VARCHAR}, #{metaDescription,jdbcType=VARCHAR}, #{metaKeyword,jdbcType=VARCHAR},
-      #{description,jdbcType=LONGVARCHAR})
+  <insert id="insertSelective" parameterType="{{ names['entity_package_name'] }}.{{ names['entity_name'] }}" {%for column in columns%}{%if column['is_auto_increment']%} keyColumn="{{column['column']}}" useGeneratedKeys="true" keyProperty="{{column['property']}}"{%endif%}{%endfor%}>
+    insert into <include refid="BaseTableName" />
+     <trim prefix="(" suffix=")" suffixOverrides="," >
+        {%for column in columns%}<if test="{{ column['property'] }} != null">{{column['property']}},</if>
+        {%endfor%}
+     </trim>
+     <trim prefix="values(" suffix=")" suffixOverrides="," >
+        {%for column in columns%}<if test="{{ column['property'] }} != null">#{ {{column['property']}}, jdbcType={{column['jdbc_type']}} },</if>
+        {%endfor%}
+     </trim>
   </insert>
 
   <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
     select
         <include refid="BaseColumns" />
     from <include refid="BaseTableName" />
-    where
-        category_id = #{categoryId,jdbcType=INTEGER}
-        and language_id = #{languageId,jdbcType=INTEGER}
+    <where>  {%for column in columns%}{% if column['is_primary'] %}
+        and {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbc_type']}} }{% endif %}{%endfor%}
+    </where>
   </select>
 </mapper>
