@@ -3,4 +3,4 @@ db_port = "3306"
 db_user = "opencart"
 db_password = "opencartdev"
 database = "opencart"
-tables = "language,product,product_description" # 以逗号分隔
+tables = "language" # 以逗号分隔

@@ -1,18 +1,18 @@
-package {{ package_name }};
+package {{ names['dao_interface_package_name'] }};
 
-import {{ entity_package_name }}.{{ entity_class_name }};
+import {{ names['entity_package_name'] }}.{{ names['entity_name'] }};
 
-public interface {{ class_name }} {
+public interface {{ names['dao_interface_name'] }} {
     /**
-     * 添加 {{ entity_class_variable }}
-     * @param {{ entity_class_variable }}
+     * 添加 {{ names['entity_name'] }}
+     * @param {{ names['entity_variable_name'] }}
      */
-    void insert({{ entity_class_name }} {{ entity_class_variable }});
+    void insert({{ names['entity_name'] }} {{ names['entity_variable_name'] }});
 
     /**
-     * 根据主键查询 {{ entity_class_variable }}
-     * @param productId
+     * 根据主键查询 {{ names['entity_variable_name'] }}{% for column in columns%}{% if column['is_primary'] %}
+     * @param {{ column['property'] }}{% endif %}{% endfor %}
      * @return
      */
-    {{ entity_class_name }} selectByPrimaryKey(Integer productId);
+    {{ names['entity_name'] }} selectByPrimaryKey({{ primary_keys }});
 }

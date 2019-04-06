@@ -1,10 +1,10 @@
-package {{ package_name }};
+package {{ names['package_name'] }};
 
 import java.util.List;
-import {{ entity_package_name }}.{{ entity_class_name }};
+import {{ names['entity_package_name'] }}.{{ names['entity_name'] }};
 
-public interface {{ class_name }} {
-    int insertSelective({{ entity_class_name }} record);
+public interface {{ names['mapper_name'] }} {
+    int insertSelective({{ names['entity_name'] }} {{ names['entity_variable_name'] }});
 
-    {{ entity_class_name }} selectByPrimaryKey(Integer categoryId);
+    {{ names['entity_name'] }} selectByPrimaryKey({{ primary_keys }});
 }

@@ -1,23 +1,23 @@
-package {{ package_name }};
+package {{ names['dao_package_name'] }};
 
-import {{ dao_interface_package_name }}.{{ dao_interface_name }};
-import {{ entity_package_name }}.{{ entity_class_name }};
-import {{ mapper_package_name }}.{{ mapper_class_name }};
+import {{ names['dao_interface_package_name'] }}.{{ names['dao_interface_name'] }};
+import {{ names['entity_package_name'] }}.{{ names['entity_name'] }};
+import {{ names['mapper_package_name'] }}.{{ names['mapper_name'] }};
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 
 @Repository
-public class {{ class_name }} implements {{ dao_interface_name }} {
+public class {{ names['dao_name'] }} implements {{ names['dao_interface_name'] }} {
 
-    @Resource(type = {{ mapper_class_name }}.class)
-    private {{ mapper_class_name }} {{ mapper_class_variable }};
+    @Resource(type = {{ names['mapper_name'] }}.class)
+    private {{ names['mapper_name'] }} {{ names['mapper_variable_name'] }};
 
-    public void insert({{ entity_class_name }} {{ entity_class_variable }}) {
-        this.{{ mapper_class_variable }}.insert({{ entity_class_variable }});
+    public void insert({{ names['entity_name'] }} {{ names['entity_variable_name'] }}) {
+        this.{{ names['mapper_variable_name'] }}.insert({{ names['entity_variable_name'] }});
     }
 
-    public {{ entity_class_variable }} selectByPrimaryKey(Integer productId) {
-        return this.{{ mapper_class_variable }}.selectByPrimaryKey(productId);
+    public {{ names['entity_name'] }} selectByPrimaryKey({{ primary_keys }}) {
+        return this.{{ names['mapper_variable_name'] }}.selectByPrimaryKey({{ primary_keys }});
     }
 }
