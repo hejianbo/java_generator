@@ -33,7 +33,7 @@ def generate_mapper_xml(table_columns):
     template = env.get_template("dao/mapper/mapper.xml.jinja2")
     response = template.render(columns=columns, names=names, primary_keys=primary_keys)
 
-    mapper_output_dir = os.path.join(output_dir, *config.mapper_package.split('.'))
+    mapper_output_dir = os.path.join(output_dir, "resources", "mappers")
     if not os.path.exists(mapper_output_dir):
         os.makedirs(mapper_output_dir)
 
