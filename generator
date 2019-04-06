@@ -92,7 +92,7 @@ def generate_dao(table_columns):
     template = env.get_template("dao/dao.jinja2")
     response = template.render(columns=columns, names=names, primary_keys=primary_keys)
 
-    mapper_output_dir = os.path.join(output_dir, *config.dao_impl_package.split('.'))
+    mapper_output_dir = os.path.join(output_dir, *config.dao_package.split('.'))
     if not os.path.exists(mapper_output_dir):
         os.makedirs(mapper_output_dir)
 
@@ -119,7 +119,7 @@ def generate_dao_interface(table_columns):
     template = env.get_template("dao/dao.interface.jinja2")
     response = template.render(columns=columns, names=names, primary_keys=primary_keys)
 
-    mapper_output_dir = os.path.join(output_dir, *config.dao_package.split('.'))
+    mapper_output_dir = os.path.join(output_dir, *config.dao_interface_package.split('.'))
     if not os.path.exists(mapper_output_dir):
         os.makedirs(mapper_output_dir)
 
