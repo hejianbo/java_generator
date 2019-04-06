@@ -4,4 +4,4 @@ db_user = "opencart"
 db_password = "opencartdev"
 database = "opencart"
 # 以逗号分隔
-tables = "language"
+tables = "category,category_description"
