@@ -15,4 +15,11 @@ public interface {{ names['dao_interface_name'] }} {
      * @return
      */
     {{ names['entity_name'] }} selectByPrimaryKey({{ primary_keys }});
+
+    /**
+     * 更新 {{ names['entity_variable_name'] }}{% for column in columns%}{% if column['is_primary'] %}
+     * @param {{ column['property'] }}{% endif %}{% endfor %}
+     * @return
+     */
+    void updateSelectiveByPrimaryKey({{ primary_keys }});
 }

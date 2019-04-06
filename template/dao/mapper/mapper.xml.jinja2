@@ -25,6 +25,17 @@
         {%endfor%}
      </trim>
   </insert>
+  <update id="updateSelectiveByPrimaryKey">
+    update <include refid="BaseTableName" />
+    <trim prefix="set " suffixOverrides=",">
+    {% for column in columns %}{% if not column['is_primary']  %}<if test="{{ column['property'] }} != null">
+        {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbcType']}} },
+    </if>{% endif %}{% endfor %}
+    </trim>
+    <where>  {%for column in columns%}{% if column['is_primary'] %}
+        and {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbc_type']}} }{% endif %}{%endfor%}
+    </where>
+  </update>
 
   <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
     select

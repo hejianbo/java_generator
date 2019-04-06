@@ -20,4 +20,8 @@ public class {{ names['dao_name'] }} implements {{ names['dao_interface_name'] }
     public {{ names['entity_name'] }} selectByPrimaryKey({{ primary_keys }}) {
         return this.{{ names['mapper_variable_name'] }}.selectByPrimaryKey({{ primary_keys_exclude_type }});
     }
+
+    public void updateSelectiveByPrimaryKey({{ primary_keys }}) {
+        this.{{ names['mapper_variable_name'] }}.updateSelectiveByPrimaryKey({{ primary_keys_exclude_type }});
+    }
 }

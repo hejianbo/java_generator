@@ -6,4 +6,6 @@ public interface {{ names['mapper_name'] }} {
     int insertSelective({{ names['entity_name'] }} {{ names['entity_variable_name'] }});
 
     {{ names['entity_name'] }} selectByPrimaryKey({{ primary_keys }});
+
+    void updateSelectiveByPrimaryKey({{ primary_keys }});
 }
