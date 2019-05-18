@@ -29,7 +29,7 @@
     update <include refid="BaseTableName" />
     <trim prefix="set " suffixOverrides=",">
     {% for column in columns %}{% if not column['is_primary']  %}<if test="{{ column['property'] }} != null">
-        {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbcType']}} },
+        {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbc_type']}} },
     </if>{% endif %}{% endfor %}
     </trim>
     <where>  {%for column in columns%}{% if column['is_primary'] %}
