@@ -6,8 +6,7 @@ from jinja2 import Environment, FileSystemLoader
 
 import config.db_config as dbconfig
 import config.basic_config as config
-from parser.entity_parser import EntityParser
-from parser.table_name_parser import TableNameParser
+from myparser import EntityParser, TableNameParser
 
 
 def generate_mapper_xml(table_columns):
@@ -159,7 +158,7 @@ if __name__ == "__main__":
     # 获取当前所在目录
     current_dir = os.path.dirname(__file__)
     # 文件输出目录
-    output_dir = os.path.join(current_dir, ".output")
+    output_dir = os.path.join(current_dir, "output")
     # 清空输出文件夹
     shutil.rmtree(output_dir)
 

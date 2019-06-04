@@ -1,7 +1,7 @@
-db_host = "139.196.86.7"
+db_host = "localhost"
 db_port = "3306"
-db_user = "opencart"
-db_password = "opencartdev"
-database = "opencart"
+db_user = "root"
+db_password = "123456"
+database = "wms"
 # 以逗号分隔
-tables = "category,category_description"
+tables = "receive_order,receive_order_goods,warehouse,warehouse_inventory,warehouse_inventory_batch,user,company"
