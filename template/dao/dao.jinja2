@@ -32,4 +32,9 @@ public class {{ names['dao_name'] }} implements {{ names['dao_interface_name'] }
     public int deleteById(Long id) {
         return this.{{ names['mapper_variable_name'] }}.deleteById(id);
     }
+
+    @Override
+    public int batchDeleteByIds(List<Long> ids) {
+        return this.{{ names['mapper_variable_name'] }}.batchDeleteByIds(ids);
+    }
 }

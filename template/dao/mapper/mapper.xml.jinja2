@@ -51,4 +51,14 @@
         set is_deleted = 1
     where id = #{id, jdbcType=BIGINT}
   </delete>
+  <delete id="batchDeleteByIds">
+    update <include refid="BaseTableName" />
+        set is_deleted = 1
+    where
+        is_deleted = 0
+        and id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item, jdbcType=BIGINT}
+         </foreach>
+  </delete>
 </mapper>
