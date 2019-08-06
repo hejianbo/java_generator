@@ -1,10 +1,16 @@
 package {{ names["entity_package_name"] }};
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Data
 public class {{ names["entity_name"] }} implements Serializable {
     {% for item in java_fields %}
