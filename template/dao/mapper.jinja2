@@ -3,10 +3,5 @@ package {{ names['mapper_package_name'] }};
 import {{ names['entity_package_name'] }}.{{ names['entity_name'] }};
 import org.apache.ibatis.annotations.Param;
 
-public interface {{ names['mapper_name'] }} {
-    int insertSelective({{ names['entity_name'] }} {{ names['entity_variable_name'] }});
-
-    {{ names['entity_name'] }} selectByPrimaryKey({{ primary_keys }});
-
-    void updateSelectiveByPrimaryKey({{ names['entity_name'] }} {{ names['entity_variable_name'] }});
+public interface {{ names['mapper_name'] }} extends BaseMapper<{{ names['entity_name'] }}>{
 }

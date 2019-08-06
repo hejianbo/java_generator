@@ -1,7 +1,7 @@
-db_host = "localhost"
+db_host = "oyo-dev-database.mysql.rds.aliyuncs.com"
 db_port = "3306"
-db_user = "root"
-db_password = "123456"
-database = "wms"
+db_user = "t_manufacture_1"
+db_password = "fIch0y7rUQYS#6ARD^xW"
+database = "manufacture"
 # 以逗号分隔
-tables = "receive_order,receive_order_goods,warehouse,warehouse_inventory,warehouse_inventory_batch,user,company"
+tables = "requirement_predict,requirement_predict_item,predict_execute_config,replenishment_predict_config,predict_result"

@@ -25,7 +25,7 @@
         {%endfor%}
      </trim>
   </insert>
-  <update id="updateSelectiveByPrimaryKey">
+  <update id="updateSelectiveById">
     update <include refid="BaseTableName" />
     <trim prefix="set " suffixOverrides=",">
     {% for column in columns %}{% if not column['is_primary']  %}<if test="{{ column['property'] }} != null">
@@ -37,7 +37,7 @@
     </where>
   </update>
 
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+  <select id="selectById" resultMap="BaseResultMap">
     select
         <include refid="BaseColumns" />
     from <include refid="BaseTableName" />
