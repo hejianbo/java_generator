@@ -45,4 +45,10 @@
         and {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbc_type']}} }{% endif %}{%endfor%}
     </where>
   </select>
+
+  <delete id="deleteById">
+    update <include refid="BaseTableName" />
+        set is_deleted = 1
+    where id = #{id, jdbcType=BIGINT}
+  </delete>
 </mapper>

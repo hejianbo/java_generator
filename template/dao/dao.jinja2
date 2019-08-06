@@ -13,15 +13,23 @@ public class {{ names['dao_name'] }} implements {{ names['dao_interface_name'] }
     @Resource(type = {{ names['mapper_name'] }}.class)
     private {{ names['mapper_name'] }} {{ names['mapper_variable_name'] }};
 
-    public void insert({{ names['entity_name'] }} {{ names['entity_variable_name'] }}) {
-        this.{{ names['mapper_variable_name'] }}.insertSelective({{ names['entity_variable_name'] }});
+    @Override
+    public int insert({{ names['entity_name'] }} {{ names['entity_variable_name'] }}) {
+        return this.{{ names['mapper_variable_name'] }}.insertSelective({{ names['entity_variable_name'] }});
     }
 
+    @Override
     public {{ names['entity_name'] }} selectById({{ primary_keys }}) {
         return this.{{ names['mapper_variable_name'] }}.selectById({{ primary_keys_exclude_type }});
     }
 
-    public void updateSelectiveById({{ names['entity_name'] }} {{ names['entity_variable_name'] }}) {
-        this.{{ names['mapper_variable_name'] }}.updateSelectiveById({{ names['entity_variable_name'] }});
+    @Override
+    public int updateSelectiveById({{ names['entity_name'] }} {{ names['entity_variable_name'] }}) {
+        return this.{{ names['mapper_variable_name'] }}.updateSelectiveById({{ names['entity_variable_name'] }});
+    }
+
+    @Override
+    public int deleteById(Long id) {
+        return this.{{ names['mapper_variable_name'] }}.deleteById(id);
     }
 }

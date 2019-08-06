@@ -37,7 +37,7 @@ def generate_mapper_xml(table_columns):
     if not os.path.exists(mapper_output_dir):
         os.makedirs(mapper_output_dir)
 
-    with open(os.path.join(mapper_output_dir, names['mapper_name'] + '.xml'), r'w') as f:
+    with open(os.path.join(mapper_output_dir, names['mapper_name'] + '.xml'), r'w', encoding="utf-8") as f:
         f.write(response)
 
 
@@ -64,7 +64,7 @@ def generate_mapper(table_columns):
     if not os.path.exists(mapper_output_dir):
         os.makedirs(mapper_output_dir)
 
-    with open(os.path.join(mapper_output_dir, names['mapper_name'] + '.java'), r'w') as f:
+    with open(os.path.join(mapper_output_dir, names['mapper_name'] + '.java'), r'w', encoding="utf-8") as f:
         f.write(response)
 
 
@@ -99,7 +99,7 @@ def generate_dao(table_columns):
     if not os.path.exists(mapper_output_dir):
         os.makedirs(mapper_output_dir)
 
-    with open(os.path.join(mapper_output_dir, names['dao_name'] + '.java'), r'w') as f:
+    with open(os.path.join(mapper_output_dir, names['dao_name'] + '.java'), r'w', encoding="utf-8") as f:
         f.write(response)
 
 
@@ -126,7 +126,7 @@ def generate_dao_interface(table_columns):
     if not os.path.exists(mapper_output_dir):
         os.makedirs(mapper_output_dir)
 
-    with open(os.path.join(mapper_output_dir, names['dao_interface_name'] + '.java'), r'w') as f:
+    with open(os.path.join(mapper_output_dir, names['dao_interface_name'] + '.java'), r'w', encoding="utf-8") as f:
         f.write(response)
 
 
@@ -150,7 +150,7 @@ def generate_entity(table_columns):
     if not os.path.exists(entity_output_dir):
         os.makedirs(entity_output_dir)
 
-    with open(os.path.join(entity_output_dir, all_names['entity_name'] + '.java'), r'w') as f:
+    with open(os.path.join(entity_output_dir, all_names['entity_name'] + '.java'), r'w', encoding="utf-8") as f:
         f.write(response)
 
 
