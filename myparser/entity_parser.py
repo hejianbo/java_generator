@@ -63,7 +63,7 @@ class EntityParser(object):
         if field_type.startswith('timestamp'):
             return 'TIMESTAMP'
         if field_type.startswith('date'):
-            return 'DATE'
+            return 'TIMESTAMP'
         raise Exception("不支持的数据库型: ", field_type)
 
     @staticmethod

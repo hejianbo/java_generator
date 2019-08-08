@@ -6,6 +6,7 @@ import {{ names['mapper_package_name'] }}.{{ names['mapper_name'] }};
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Repository
 public class {{ names['dao_name'] }} implements {{ names['dao_interface_name'] }} {
@@ -34,7 +35,7 @@ public class {{ names['dao_name'] }} implements {{ names['dao_interface_name'] }
     }
 
     @Override
-    public int batchDeleteByIds(List<Long> ids) {
-        return this.{{ names['mapper_variable_name'] }}.batchDeleteByIds(ids);
+    public void batchDeleteByIds(List<Long> ids) {
+        this.{{ names['mapper_variable_name'] }}.batchDeleteByIds(ids);
     }
 }
