@@ -25,6 +25,11 @@ public class {{ names['dao_name'] }} implements {{ names['dao_interface_name'] }
     }
 
     @Override
+    public List<{{ names['entity_name'] }}> selectByIds(List<Long> ids) {
+        return this.{{ names['mapper_variable_name'] }}.selectByIds(ids);
+    }
+
+    @Override
     public int updateSelectiveById({{ names['entity_name'] }} {{ names['entity_variable_name'] }}) {
         return this.{{ names['mapper_variable_name'] }}.updateSelectiveById({{ names['entity_variable_name'] }});
     }

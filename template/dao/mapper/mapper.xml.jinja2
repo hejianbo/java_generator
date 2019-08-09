@@ -49,6 +49,17 @@
     </where>
   </select>
 
+   <select id="selectByIds" resultMap="BaseResultMap">
+    select
+        <include refid="BaseColumns" />
+        from <include refid="BaseTableName" />
+        where is_deleted = 0
+            and id in
+            <foreach collection="ids" item="item" open="(" separator="," close=")">
+                #{item, jdbcType=BIGINT}
+            </foreach>
+  </select>
+
   <delete id="deleteById">
     update <include refid="TableName" />
         set is_deleted = 1
