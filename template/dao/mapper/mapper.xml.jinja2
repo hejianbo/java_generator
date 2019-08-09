@@ -20,7 +20,7 @@
   <insert id="insertSelective" parameterType="{{ names['entity_package_name'] }}.{{ names['entity_name'] }}" {%for column in columns%}{%if column['is_auto_increment']%} keyColumn="{{column['column']}}" useGeneratedKeys="true" keyProperty="{{column['property']}}"{%endif%}{%endfor%}>
     insert into <include refid="TableName" />
      <trim prefix="(" suffix=")" suffixOverrides="," >
-        {%for column in columns%}<if test="{{ column['property'] }} != null">{{column['property']}},</if>
+        {%for column in columns%}<if test="{{ column['property'] }} != null">{{column['column']}},</if>
         {%endfor%}
      </trim>
      <trim prefix="values(" suffix=")" suffixOverrides="," >
