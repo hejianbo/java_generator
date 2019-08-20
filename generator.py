@@ -35,6 +35,7 @@ if __name__ == "__main__":
             templateParser.render(table, rows, "dao/dao.jinja2", config.dao_package, 'dao_name', '.java')
             templateParser.render(table, rows, "dao/dao.interface.jinja2", config.dao_interface_package, 'dao_interface_name', '.java')
             templateParser.render(table, rows, "dao/mapper/mapper.xml.jinja2", "resources", 'mapper_name', '.xml')
+            templateParser.render(table, rows, "dao/service/service.bo.jinja2", config.service_bo_package, 'service_bo_name', '.java')
 
     finally:
         # 关闭数据库
