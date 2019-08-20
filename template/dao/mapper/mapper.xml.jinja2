@@ -17,7 +17,7 @@
     {%for column in columns%}{%if loop.index != 1 %}, {% endif %}base.`{{ column['column'] }}`{% endfor %}
   </sql>
 
-  <insert id="insertSelective" parameterType="{{ names['entity_package_name'] }}.{{ names['entity_name'] }}" {%for column in columns%}{%if column['is_auto_increment']%} keyColumn="{{column['column']}}" useGeneratedKeys="true" keyProperty="{{column['property']}}"{%endif%}{%endfor%}>
+  <insert id="insertSelective" parameterType="{{ names['entity_package_name'] }}.{{ names['entity_name'] }}"    keyColumn="id" useGeneratedKeys="true" keyProperty="id">
     insert into <include refid="TableName" />
      <trim prefix="(" suffix=")" suffixOverrides="," >
         {%for column in columns%}<if test="{{ column['property'] }} != null">{{column['column']}},</if>
@@ -51,8 +51,8 @@
         {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbc_type']}} },
     </if>{% endif %}{% endfor %}
     </trim>
-    <where>  {%for column in columns%}{% if column['is_primary'] %}
-        and {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbc_type']}} }{% endif %}{%endfor%}
+    <where>
+        and id = #{ id, jdbcType=BIGINT }
     </where>
   </update>
 
@@ -60,8 +60,8 @@
     select
         <include refid="BaseColumns" />
     from <include refid="BaseTableName" />
-    <where>  {%for column in columns%}{% if column['is_primary'] %}
-        and {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbc_type']}} }{% endif %}{%endfor%}
+    <where>
+        and id = #{ id, jdbcType=BIGINT }
     </where>
   </select>
 
