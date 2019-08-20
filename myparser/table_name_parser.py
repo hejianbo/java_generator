@@ -51,6 +51,7 @@ class TableNameParser(object):
     def get_service_bo_name(self):
         return self.class_name + config.service_bo_suffix
 
+
     def get_all_names(self):
         """
         获取所有需要解析出来的名称
@@ -72,5 +73,6 @@ class TableNameParser(object):
             "mapper_variable_name": self.get_mapper_variable(),
             "service_name": self.get_service_name(),
             "service_interface_name": self.get_service_interface_name(),
-            "service_bo_name": self.get_service_bo_name()
+            "service_bo_name": self.get_service_bo_name(),
+            'service_bo_package_name': config.service_bo_package
         }
