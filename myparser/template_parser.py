@@ -1,7 +1,8 @@
 import os
+
 from jinja2 import Environment, FileSystemLoader
+
 from myparser import EntityParser, TableNameParser
-import config.basic_config as config
 
 
 class TemplateParser(object):
