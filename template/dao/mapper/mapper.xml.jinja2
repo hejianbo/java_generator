@@ -28,6 +28,22 @@
         {%endfor%}
      </trim>
   </insert>
+
+  <insert id = "batchInsert"   keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+    insert into <include refid="TableName" /> (
+        {%for column in columns%}{%if loop.index != 1 %}, {% endif %}`{{ column['column'] }}`{% endfor %}
+    ) values
+    <foreach collection="list" item="item" separator=",">
+    (
+        <trim suffixOverrides=",">
+         {%for column in columns%}
+         #{ item.{{column['property']}}, jdbcType={{column['jdbc_type']}} },
+        {%endfor%}
+        </trim>
+    )
+    </foreach>
+  </insert>
+
   <update id="updateSelectiveById">
     update <include refid="TableName" />
     <trim prefix="set " suffixOverrides=",">
@@ -75,4 +91,6 @@
             #{item, jdbcType=BIGINT}
          </foreach>
   </delete>
+  <!-- auto generate code end -->
+
 </mapper>
