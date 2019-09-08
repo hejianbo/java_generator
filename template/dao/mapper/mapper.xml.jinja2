@@ -17,7 +17,7 @@
     {%for column in columns%}{%if loop.index != 1 %}, {% endif %}base.`{{ column['column'] }}`{% endfor %}
   </sql>
 
-  <insert id="insertSelective" parameterType="{{ names['entity_package_name'] }}.{{ names['entity_name'] }}"    keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="{{ names['entity_package_name'] }}.{{ names['entity_name'] }}"    keyColumn="id" useGeneratedKeys="true" keyProperty="id">
     insert into <include refid="TableName" />
      <trim prefix="(" suffix=")" suffixOverrides="," >
         {%for column in columns%}<if test="{{ column['property'] }} != null">{{column['column']}},</if>
@@ -44,7 +44,7 @@
     </foreach>
   </insert>
 
-  <update id="updateSelectiveById">
+  <update id="update">
     update <include refid="TableName" />
     <trim prefix="set " suffixOverrides=",">
     {% for column in columns %}{% if not column['is_primary']  %}<if test="{{ column['property'] }} != null">
@@ -76,7 +76,7 @@
             </foreach>
   </select>
 
-  <delete id="deleteById">
+  <delete id="batchDeleteById">
     update <include refid="TableName" />
         set is_deleted = 1
     where id = #{id, jdbcType=BIGINT}
