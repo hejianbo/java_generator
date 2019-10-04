@@ -8,6 +8,7 @@ from config.dal_config import DalConfig
 from config.db_config import DbConfig
 from config.service_config import ServiceConfig
 from myparser import TemplateParser
+from myparser.template_item import TemplateItem
 
 if __name__ == "__main__":
     # 获取当前所在目录
@@ -19,9 +20,9 @@ if __name__ == "__main__":
     conf.read(config_file_path, "utf-8")
 
     # 加载配置文件到对象中
-    dbConfig = DbConfig(conf)
-    dalConfig = DalConfig(conf)
-    serviceConfig = ServiceConfig(conf)
+    db_config = DbConfig(conf)
+    dal_config = DalConfig(conf)
+    service_config = ServiceConfig(conf)
 
     # 文件输出目录
     output_dir = os.path.join(current_dir, "output")
@@ -31,27 +32,34 @@ if __name__ == "__main__":
 
     try:
         # 打开数据库连接
-        db = pymysql.connect(host=dbConfig.db_host,
-                             database=dbConfig.db_name,
-                             user=dbConfig.db_user,
-                             password=dbConfig.db_password)
+        db = pymysql.connect(host=db_config.db_host,
+                             database=db_config.db_name,
+                             user=db_config.db_user,
+                             password=db_config.db_password)
         # 创建cursor
         cursor = db.cursor()
 
-        templateParser = TemplateParser(current_dir, output_dir)
+        templateParser = TemplateParser(current_dir, output_dir, service_config, dal_config)
         # 循环处理每个数据库表
-        for table in dbConfig.db_tables.split(","):
+        for table in db_config.db_tables.split(","):
             # 使用execute执行sql
             cursor.execute("desc " + table)
             rows = cursor.fetchall()
             # 输出模板
-            templateParser.render(table, rows, "dao/entity.jinja2", dalConfig.entity_package, 'entity_name', '.java')
-            templateParser.render(table, rows, "dao/mapper.jinja2", dalConfig.mapper_package, 'mapper_name', '.java')
-            templateParser.render(table, rows, "dao/dao.jinja2", dalConfig.dao_package, 'dao_name', '.java')
-            templateParser.render(table, rows, "dao/dao.interface.jinja2", dalConfig.dao_interface_package, 'dao_interface_name', '.java')
-            templateParser.render(table, rows, "dao/mapper/mapper.xml.jinja2", "resources", 'mapper_name', '.xml')
-            templateParser.render(table, rows, "dao/service/service.bo.jinja2", serviceConfig.service_bo_package, 'service_bo_name', '.java')
-
+            templateParser.render2(
+                TemplateItem(table, rows, "dao/entity.jinja2", dal_config.entity_package, 'entity_name', '.java'))
+            templateParser.render2(
+                TemplateItem(table, rows, "dao/mapper.jinja2", dal_config.mapper_package, 'mapper_name', '.java'))
+            templateParser.render2(
+                TemplateItem(table, rows, "dao/dao.jinja2", dal_config.dao_package, 'dao_name', '.java'))
+            templateParser.render2(
+                TemplateItem(table, rows, "dao/dao.interface.jinja2", dal_config.dao_interface_package,
+                             'dao_interface_name', '.java'))
+            templateParser.render2(
+                TemplateItem(table, rows, "dao/mapper/mapper.xml.jinja2", "resources", 'mapper_name', '.xml'))
+            templateParser.render2(
+                TemplateItem(table, rows, "dao/service/service.bo.jinja2", service_config.service_bo_package,
+                             'service_bo_name', '.java'))
     finally:
         # 关闭数据库
         db.close()
