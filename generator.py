@@ -12,12 +12,10 @@ if __name__ == "__main__":
     # 获取当前所在目录
     current_dir = os.path.dirname(__file__)
 
+    # 加载config.ini配置文件
     conf = configparser.ConfigParser()
     config_file_path = os.path.join(current_dir, "config.ini")
     conf.read(config_file_path, "utf-8")
-    print(conf.sections())
-    print(conf.get("db", "db_host"))
-    # exit(0)
 
     # 文件输出目录
     output_dir = os.path.join(current_dir, "output")
