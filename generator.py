@@ -2,15 +2,23 @@ import os
 import shutil
 
 import pymysql
+import configparser
 
 import config.basic_config as config
-import config.db_config as dbconfig
 from myparser import TemplateParser
 
 
 if __name__ == "__main__":
     # 获取当前所在目录
     current_dir = os.path.dirname(__file__)
+
+    conf = configparser.ConfigParser()
+    config_file_path = os.path.join(current_dir, "config.ini")
+    conf.read(config_file_path, "utf-8")
+    print(conf.sections())
+    print(conf.get("db", "db_host"))
+    # exit(0)
+
     # 文件输出目录
     output_dir = os.path.join(current_dir, "output")
     # 清空输出文件夹
@@ -19,13 +27,16 @@ if __name__ == "__main__":
 
     try:
         # 打开数据库连接
-        db = pymysql.connect(host=dbconfig.db_host, database=dbconfig.database, user=dbconfig.db_user, password=dbconfig.db_password)
+        db = pymysql.connect(host=conf.get("db", "db_host"),
+                             database=conf.get("db", "db_name"),
+                             user=conf.get("db", "db_user"),
+                             password=conf.get("db", "db_password"))
         # 创建cursor
         cursor = db.cursor()
 
         templateParser = TemplateParser(current_dir, output_dir)
         # 循环处理每个数据库表
-        for table in dbconfig.tables.split(","):
+        for table in conf.get("db", "db_tables").split(","):
             # 使用execute执行sql
             cursor.execute("desc " + table)
             rows = cursor.fetchall()

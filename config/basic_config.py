@@ -1,6 +1,6 @@
 base_package = "me.jianbo.todo"
 
-dal_package = base_package + ".dao"
+dal_package = base_package + ".dal"
 
 # DAL层配置
 dao_interface_package = dal_package + ""
