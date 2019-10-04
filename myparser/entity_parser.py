@@ -112,8 +112,8 @@ class EntityParser(object):
         if field_type.startswith('text'):
             return 'String'
         if field_type.startswith('timestamp'):
-            return 'Date'
+            return 'LocalDateTime'
         if field_type.startswith('date'):
-            return 'Date'
+            return 'LocalDateTime'
 
         raise Exception("不支持的数据库型: ", field_type)
