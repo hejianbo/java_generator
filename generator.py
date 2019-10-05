@@ -4,6 +4,7 @@ import shutil
 
 import pymysql
 
+from config.config_util import ConfigUtil
 from config.dal_config import DalConfig
 from config.db_config import DbConfig
 from config.service_config import ServiceConfig
@@ -15,9 +16,7 @@ if __name__ == "__main__":
     current_dir = os.path.dirname(__file__)
 
     # 加载config.ini配置文件
-    conf = configparser.ConfigParser()
-    config_file_path = os.path.join(current_dir, "config.ini")
-    conf.read(config_file_path, "utf-8")
+    conf = ConfigUtil.get_config(current_dir, "config.ini")
 
     # 加载配置文件到对象中
     db_config = DbConfig(conf)
@@ -39,7 +38,7 @@ if __name__ == "__main__":
         # 创建cursor
         cursor = db.cursor()
 
-        templateParser = TemplateParser(current_dir, output_dir, service_config, dal_config)
+        templateParser = TemplateParser(current_dir, output_dir, conf)
         # 循环处理每个数据库表
         for table in db_config.db_tables.split(","):
             # 使用execute执行sql

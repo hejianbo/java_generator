@@ -1,12 +1,11 @@
-import config.basic_config as config
-
-
 class TableNameParser(object):
 
-    def __init__(self, table_name):
+    def __init__(self, table_name, service_config, dal_config):
         self.table_name = table_name
+        self.service_config = service_config
+        self.dal_config = dal_config
         # 首先将表名的前缀给去掉
-        table_name = table_name.lstrip(config.table_prefix)
+        table_name = table_name.lstrip(self.dal_config.table_prefix)
 
         words = table_name.split("_")
         if len(words) == 1:
@@ -19,10 +18,10 @@ class TableNameParser(object):
             self.class_name = ''.join([word.capitalize() for word in words])
 
     def get_entity_name(self):
-        return self.class_name + config.entity_suffix
+        return self.class_name + self.dal_config.entity_suffix
 
     def get_entity_variable(self):
-        return self.variable_name + config.entity_suffix
+        return self.variable_name + self.dal_config.entity_suffix
 
     def get_mapper_name(self):
         return self.class_name + "Mapper"
@@ -49,8 +48,7 @@ class TableNameParser(object):
         return "I" + self.class_name + "Service"
 
     def get_service_bo_name(self):
-        return self.class_name + config.service_bo_suffix
-
+        return self.class_name + self.service_config.service_bo_suffix
 
     def get_all_names(self):
         """
@@ -60,19 +58,19 @@ class TableNameParser(object):
         return {
             "table_name": self.table_name,
             "entity_name": self.get_entity_name(),
-            "entity_package_name": config.entity_package,
+            "entity_package_name": self.dal_config.entity_package,
             "entity_variable_name": self.get_entity_variable(),
             "dao_name": self.get_dao_name(),
             "dao_variable_name": self.get_dao_variable(),
-            "dao_package_name": config.dao_package,
+            "dao_package_name": self.dal_config.dao_package,
             "dao_interface_name": self.get_dao_interface_name(),
             "dao_interface_variable_name": self.get_dao_interface_variable(),
-            "dao_interface_package_name": config.dao_interface_package,
+            "dao_interface_package_name": self.dal_config.dao_interface_package,
             "mapper_name": self.get_mapper_name(),
-            "mapper_package_name": config.mapper_package,
+            "mapper_package_name": self.dal_config.mapper_package,
             "mapper_variable_name": self.get_mapper_variable(),
             "service_name": self.get_service_name(),
             "service_interface_name": self.get_service_interface_name(),
             "service_bo_name": self.get_service_bo_name(),
-            'service_bo_package_name': config.service_bo_package
+            'service_bo_package_name': self.service_config.service_bo_package
         }

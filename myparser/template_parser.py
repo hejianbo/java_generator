@@ -2,22 +2,26 @@ import os
 
 from jinja2 import Environment, FileSystemLoader
 
+from config.dal_config import DalConfig
+from config.service_config import ServiceConfig
 from myparser import EntityParser, TableNameParser
 
 
 class TemplateParser(object):
-    def __init__(self, current_dir, output_dir, service_config, dal_config):
+    def __init__(self, current_dir, output_dir, conf):
         self.env = Environment(loader=FileSystemLoader(os.path.join(current_dir, 'template')))
         self.output_dir = output_dir
-        self.service_config = service_config
-        self.dal_config = dal_config
+        self.dal_config = DalConfig(conf)
+        self.service_config = ServiceConfig(conf)
 
     def render2(self, template_item):
         entity_parser = EntityParser(template_item.table_columns)
         # 转换为java中的字段
         columns = entity_parser.parse()
-        # 获取类名
-        table_name_parser = TableNameParser(template_item.table_name)
+        # 获取所有相关名称
+
+        # 名称解析: 如PO名称, Entity名称, Mapper名称等
+        table_name_parser = TableNameParser(template_item.table_name, self.service_config, self.dal_config)
         all_names = table_name_parser.get_all_names()
 
         template = self.env.get_template(template_item.template_path)
