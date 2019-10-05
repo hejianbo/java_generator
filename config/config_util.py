@@ -10,3 +10,9 @@ class ConfigUtil(object):
         config_file_path = os.path.join(directory, file)
         conf.read(config_file_path, "utf-8")
         return conf
+
+    @staticmethod
+    def get_config_by_full_path(full_path):
+        conf = configparser.ConfigParser()
+        conf.read(full_path, "utf-8")
+        return conf

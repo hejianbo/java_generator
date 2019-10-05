@@ -27,7 +27,7 @@ class TemplateParser(object):
         template = self.env.get_template(template_item.template_path)
         response = template.render(columns=columns, names=all_names)
 
-        entity_output_dir = os.path.join(self.output_dir, *template_item.package_name.split('.'))
+        entity_output_dir = os.path.join(self.output_dir, template_item.package_name)
         if not os.path.exists(entity_output_dir):
             os.makedirs(entity_output_dir)
 
