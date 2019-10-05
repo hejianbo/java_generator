@@ -60,4 +60,5 @@ if __name__ == "__main__":
                              'service_bo_name', '.java'))
     finally:
         # 关闭数据库
+        cursor.close()
         db.close()
