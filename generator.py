@@ -50,23 +50,7 @@ if __name__ == "__main__":
 
             for templateItem in templateItemFactory.get_template_items():
                 templateParser.render2(
-                    TemplateItem(table, rows, templateItem["template_path"], templateItem["output_dir"], templateItem["template_name"], templateItem["file_type"]))
-
-            # # 输出模板
-            # templateParser.render2(
-            #     TemplateItem(table, rows, "dao/entity.jinja2", dal_config.entity_package, 'entity_name', '.java'))
-            # templateParser.render2(
-            #     TemplateItem(table, rows, "dao/mapper.jinja2", dal_config.mapper_package, 'mapper_name', '.java'))
-            # templateParser.render2(
-            #     TemplateItem(table, rows, "dao/dao.jinja2", dal_config.dao_package, 'dao_name', '.java'))
-            # templateParser.render2(
-            #     TemplateItem(table, rows, "dao/dao.interface.jinja2", dal_config.dao_interface_package,
-            #                  'dao_interface_name', '.java'))
-            # templateParser.render2(
-            #     TemplateItem(table, rows, "dao/mapper/mapper.xml.jinja2", "resources", 'mapper_name', '.xml'))
-            # templateParser.render2(
-            #     TemplateItem(table, rows, "dao/service/service.bo.jinja2", service_config.service_bo_package,
-            #                  'service_bo_name', '.java'))
+                    TemplateItem(table, rows, templateItem["template_path"], templateItem["output_dir"], templateItem["output_filename"], templateItem["output_file_type"]))
     finally:
         # 关闭数据库
         cursor.close()

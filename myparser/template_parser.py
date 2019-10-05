@@ -10,7 +10,7 @@ from myparser import EntityParser, TableNameParser
 class TemplateParser(object):
     def __init__(self, current_dir, output_dir, conf):
         self.env = Environment(loader=FileSystemLoader(os.path.join(current_dir, 'template')))
-        self.output_dir = output_dir
+        self.base_dir = output_dir
         self.dal_config = DalConfig(conf)
         self.service_config = ServiceConfig(conf)
 
@@ -27,7 +27,7 @@ class TemplateParser(object):
         template = self.env.get_template(template_item.template_path)
         response = template.render(columns=columns, names=all_names)
 
-        entity_output_dir = os.path.join(self.output_dir, template_item.package_name)
+        entity_output_dir = os.path.join(self.base_dir, template_item.output_dir)
         if not os.path.exists(entity_output_dir):
             os.makedirs(entity_output_dir)
 

@@ -14,8 +14,8 @@ class TemplateItemFactory(object):
             if self.template_conf.has_section(template):
                 template_item = {
                     "template_path": self.template_conf.get(template, "template_path"),
-                    "file_type": self.template_conf.get(template, "file_type"),
-                    "template_name": self.template_conf.get(template, "template_name"),
+                    "output_file_type": self.template_conf.get(template, "file_type"),
+                    "output_filename": self.template_conf.get(template, "template_name"),
                     "output_dir": self.template_conf.get(template, "output_dir"),
                 }
                 template_items.append(template_item)
