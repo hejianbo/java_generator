@@ -31,12 +31,12 @@
 
   <insert id = "batchInsert"   keyColumn="id" useGeneratedKeys="true" keyProperty="id">
     insert into <include refid="TableName" /> (
-        {%for column in columns%}{%if loop.index != 1 %}, {% endif %}`{{ column['column'] }}`{% endfor %}
+        {%for column in columns  if column['column'] not in ('id', 'create_time', 'update_time', 'is_deleted') %}{%if loop.index != 1 %}, {% endif %}`{{ column['column'] }}`{% endfor %}
     ) values
     <foreach collection="list" item="item" separator=",">
     (
         <trim suffixOverrides=",">
-         {%for column in columns%}
+         {%for column in columns if column['column'] not in ('id', 'create_time', 'update_time', 'is_deleted')%}
          #{ item.{{column['property']}}, jdbcType={{column['jdbc_type']}} },
         {%endfor%}
         </trim>
@@ -55,6 +55,21 @@
         and id = #{ id, jdbcType=BIGINT }
         and update_by = #{updateBy, jdbcType = BIGINT}
     </where>
+  </update>
+
+  <update id="batchUpdate">
+    <foreach collection="list" item="item" separator=";">
+        update <include refid="TableName" />
+        <trim prefix="set " suffixOverrides=",">
+        {% for column in columns if column['column'] not in ('id', 'create_time', 'update_time', 'is_deleted')%}<if test="{{ column['property'] }} != null">
+            {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbc_type']}} },
+        </if>{% endfor %}
+        </trim>
+        <where>
+            and id = #{ id, jdbcType=BIGINT }
+            and update_by = #{updateBy, jdbcType = BIGINT}
+        </where>
+    </foreach>
   </update>
 
   <select id="selectById" resultMap="BaseResultMap">
