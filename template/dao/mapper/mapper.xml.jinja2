@@ -53,6 +53,7 @@
     </trim>
     <where>
         and id = #{ id, jdbcType=BIGINT }
+        and update_by = #{updateBy, jdbcType = BIGINT}
     </where>
   </update>
 
@@ -76,14 +77,17 @@
             </foreach>
   </select>
 
-  <delete id="batchDeleteById">
+  <delete id="deleteById">
     update <include refid="TableName" />
-        set is_deleted = 1
+        set is_deleted = 1,
+            update_by = #{updateBy, jdbcType=BIGINT}
     where id = #{id, jdbcType=BIGINT}
   </delete>
+
   <delete id="batchDeleteByIds">
     update <include refid="TableName" />
-        set is_deleted = 1
+        set is_deleted = 1,
+            and update_by = #{updateBy, jdbcType=BIGINT}
     where
         is_deleted = 0
         and id in

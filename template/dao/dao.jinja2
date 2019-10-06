@@ -30,17 +30,17 @@ public class {{ names['dao_name'] }} implements {{ names['dao_interface_name'] }
     }
 
     @Override
-    public int updateSelectiveById({{ names['entity_name'] }} {{ names['entity_variable_name'] }}) {
-        return this.{{ names['mapper_variable_name'] }}.updateSelectiveById({{ names['entity_variable_name'] }});
+    public int updateById({{ names['entity_name'] }} {{ names['entity_variable_name'] }}) {
+        return this.{{ names['mapper_variable_name'] }}.updateById({{ names['entity_variable_name'] }});
     }
 
     @Override
-    public int deleteById(Long id) {
-        return this.{{ names['mapper_variable_name'] }}.deleteById(id);
+    public int deleteById(Long id, Long updateBy) {
+        return this.{{ names['mapper_variable_name'] }}.deleteById(id, updateBy);
     }
 
     @Override
-    public void batchDeleteByIds(List<Long> ids) {
-        this.{{ names['mapper_variable_name'] }}.batchDeleteByIds(ids);
+    public void batchDeleteByIds(List<Long> ids, Long updateBy) {
+        this.{{ names['mapper_variable_name'] }}.batchDeleteByIds(ids, updateBy);
     }
 }
