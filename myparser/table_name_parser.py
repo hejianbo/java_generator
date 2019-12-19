@@ -30,10 +30,10 @@ class TableNameParser(object):
         return self.variable_name + "Mapper"
 
     def get_dao_name(self):
-        return self.class_name + "DaoImpl"
+        return self.class_name + "Dao"
 
     def get_dao_variable(self):
-        return self.variable_name + "DaoImpl"
+        return self.variable_name + "Dao"
 
     def get_dao_interface_name(self):
         return "I" + self.class_name + "Dao"

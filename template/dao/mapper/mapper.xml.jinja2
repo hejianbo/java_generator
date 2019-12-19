@@ -48,7 +48,7 @@
     update <include refid="TableName" />
     <trim prefix="set " suffixOverrides=",">
     {% for column in columns %}{% if not column['is_primary']  %}<if test="{{ column['property'] }} != null">
-        {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbc_type']}} },
+        {{ column['column'] }} = #{ po.{{column['property']}}, jdbcType={{column['jdbc_type']}} },
     </if>{% endif %}{% endfor %}
     </trim>
     <where>
@@ -87,7 +87,7 @@
         from <include refid="BaseTableName" />
         where is_deleted = 0
             and id in
-            <foreach collection="ids" item="item" open="(" separator="," close=")">
+            <foreach collection="list" item="item" open="(" separator="," close=")">
                 #{item, jdbcType=BIGINT}
             </foreach>
   </select>
