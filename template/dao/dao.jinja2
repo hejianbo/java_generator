@@ -14,32 +14,7 @@ public class {{ names['dao_name'] }} {
     private {{ names['mapper_name'] }} {{ names['mapper_variable_name'] }};
 
     @Override
-    public int insert({{ names['entity_name'] }} {{ names['entity_variable_name'] }}) {
-        return this.{{ names['mapper_variable_name'] }}.insertSelective({{ names['entity_variable_name'] }});
-    }
-
-    @Override
-    public {{ names['entity_name'] }} selectById({{ primary_keys }}) {
-        return this.{{ names['mapper_variable_name'] }}.selectById({{ primary_keys_exclude_type }});
-    }
-
-    @Override
-    public List<{{ names['entity_name'] }}> selectByIds(List<Long> ids) {
-        return this.{{ names['mapper_variable_name'] }}.selectByIds(ids);
-    }
-
-    @Override
-    public int updateById({{ names['entity_name'] }} {{ names['entity_variable_name'] }}) {
-        return this.{{ names['mapper_variable_name'] }}.updateById({{ names['entity_variable_name'] }});
-    }
-
-    @Override
-    public int deleteById(Long id, Long updateBy) {
-        return this.{{ names['mapper_variable_name'] }}.deleteById(id, updateBy);
-    }
-
-    @Override
-    public void batchDeleteByIds(List<Long> ids, Long updateBy) {
-        this.{{ names['mapper_variable_name'] }}.batchDeleteByIds(ids, updateBy);
+    protected BaseMapper<{{ names['entity_name'] }}> getMapper() {
+        return this.{{ names['mapper_variable_name'] }};
     }
 }
