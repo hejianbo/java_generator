@@ -77,7 +77,23 @@
         <include refid="BaseColumns" />
     from <include refid="BaseTableName" />
     <where>
+        is_deleted = 0
         and id = #{ id, jdbcType=BIGINT }
+    </where>
+  </select>
+
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select
+        <include refid="BaseColumns" />
+    from <include refid="BaseTableName" />
+    <where>
+        is_deleted = 0
+        <if test = "po != null">
+          {% for column in columns if column['column'] not in ('is_deleted')%}
+            <if test="po.{{ column['property'] }} != null">
+              and {{ column['column'] }} = #{ po.{{column['property']}}, jdbcType={{column['jdbc_type']}} },
+            </if>{% endfor %}
+        </if>
     </where>
   </select>
 
