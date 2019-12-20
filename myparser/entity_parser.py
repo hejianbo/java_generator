@@ -61,7 +61,7 @@ class EntityParser(object):
         if field_type.startswith('text'):
             return 'TEXT'
         if field_type.startswith('mediumtext'):
-            return 'MEDIUMTEXT'
+            return 'LONGVARCHAR'
         if field_type.startswith('timestamp'):
             return 'TIMESTAMP'
         if field_type.startswith('date'):

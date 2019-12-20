@@ -91,7 +91,7 @@
         <if test = "po != null">
           {% for column in columns if column['column'] not in ('is_deleted')%}
             <if test="po.{{ column['property'] }} != null">
-              and {{ column['column'] }} = #{ po.{{column['property']}}, jdbcType={{column['jdbc_type']}} },
+              and {{ column['column'] }} = #{ po.{{column['property']}}, jdbcType={{column['jdbc_type']}} }
             </if>{% endfor %}
         </if>
     </where>
