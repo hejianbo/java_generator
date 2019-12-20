@@ -60,6 +60,8 @@ class EntityParser(object):
             return 'CHAR'
         if field_type.startswith('text'):
             return 'TEXT'
+        if field_type.startswith('mediumtext'):
+            return 'MEDIUMTEXT'
         if field_type.startswith('timestamp'):
             return 'TIMESTAMP'
         if field_type.startswith('date'):
@@ -110,6 +112,8 @@ class EntityParser(object):
         if field_type.startswith('char'):
             return 'String'
         if field_type.startswith('text'):
+            return 'String'
+        if field_type.startswith('mediumtext'):
             return 'String'
         if field_type.startswith('timestamp'):
             return 'LocalDateTime'
