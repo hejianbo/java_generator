@@ -45,7 +45,7 @@ if __name__ == "__main__":
         # 循环处理每个数据库表
         for table in db_config.db_tables.split(","):
             # 使用execute执行sql
-            cursor.execute("desc " + table)
+            cursor.execute("desc `" + table + '`')
             rows = cursor.fetchall()
 
             for templateItem in templateItemFactory.get_template_items():
