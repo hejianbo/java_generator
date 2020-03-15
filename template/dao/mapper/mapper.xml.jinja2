@@ -17,7 +17,7 @@
     {%for column in columns%}{%if loop.index != 1 %}, {% endif %}base.`{{ column['column'] }}`{% endfor %}
   </sql>
 
-  <insert id="insert" parameterType="{{ names['entity_package_name'] }}.{{ names['entity_name'] }}"    keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="{{ names['entity_package_name'] }}.{{ names['entity_name'] }}">
     insert into <include refid="TableName" />
      <trim prefix="(" suffix=")" suffixOverrides="," >
         {%for column in columns%}<if test="{{ column['property'] }} != null">{{column['column']}},</if>
@@ -29,7 +29,7 @@
      </trim>
   </insert>
 
-  <insert id = "batchInsert"   keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+  <insert id = "batchInsert">
     insert into <include refid="TableName" /> (
         {%for column in columns  if column['column'] not in ('id', 'create_time', 'update_time', 'is_deleted') %}{%if loop.index != 1 %}, {% endif %}`{{ column['column'] }}`{% endfor %}
     ) values
@@ -52,8 +52,8 @@
     </if>{% endif %}{% endfor %}
     </trim>
     <where>
-        and id = #{ id, jdbcType=BIGINT }
-        and update_by = #{updateBy, jdbcType = BIGINT}
+        {%for column in columns%}{% if column['is_primary'] %}
+                and {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbc_type']}} }{% endif %}{%endfor%}
     </where>
   </update>
 
@@ -66,8 +66,8 @@
         </if>{% endfor %}
         </trim>
         <where>
-            and id = #{ id, jdbcType=BIGINT }
-            and update_by = #{updateBy, jdbcType = BIGINT}
+            {%for column in columns%}{% if column['is_primary'] %}
+                    and {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbc_type']}} }{% endif %}{%endfor%}
         </where>
     </foreach>
   </update>
@@ -77,8 +77,8 @@
         <include refid="BaseColumns" />
     from <include refid="BaseTableName" />
     <where>
-        is_deleted = 0
-        and id = #{ id, jdbcType=BIGINT }
+        {%for column in columns%}{% if column['is_primary'] %}
+                and {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbc_type']}} }{% endif %}{%endfor%}
     </where>
   </select>
 
@@ -87,7 +87,6 @@
         <include refid="BaseColumns" />
     from <include refid="BaseTableName" />
     <where>
-        is_deleted = 0
         <if test = "po != null">
           {% for column in columns if column['column'] not in ('is_deleted')%}
             <if test="po.{{ column['property'] }} != null">
@@ -96,36 +95,6 @@
         </if>
     </where>
   </select>
-
-   <select id="selectByIds" resultMap="BaseResultMap">
-    select
-        <include refid="BaseColumns" />
-        from <include refid="BaseTableName" />
-        where is_deleted = 0
-            and id in
-            <foreach collection="list" item="item" open="(" separator="," close=")">
-                #{item, jdbcType=BIGINT}
-            </foreach>
-  </select>
-
-  <delete id="deleteById">
-    update <include refid="TableName" />
-        set is_deleted = 1,
-            update_by = #{updateBy, jdbcType=BIGINT}
-    where id = #{id, jdbcType=BIGINT}
-  </delete>
-
-  <delete id="batchDeleteByIds">
-    update <include refid="TableName" />
-        set is_deleted = 1,
-            and update_by = #{updateBy, jdbcType=BIGINT}
-    where
-        is_deleted = 0
-        and id in
-        <foreach collection="list" item="item" open="(" separator="," close=")">
-            #{item, jdbcType=BIGINT}
-         </foreach>
-  </delete>
   <!-- auto generate code end -->
 
 </mapper>

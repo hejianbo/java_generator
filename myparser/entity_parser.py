@@ -66,7 +66,10 @@ class EntityParser(object):
             return 'TIMESTAMP'
         if field_type.startswith('date'):
             return 'TIMESTAMP'
-        raise Exception("不支持的数据库型: ", field_type)
+        if field_type.startswith('enum'):
+            return 'VARCHAR'
+
+        raise Exception("不支持的数据库型: " + field_type)
 
     @staticmethod
     def get_java_property_name(field_name):
@@ -119,5 +122,7 @@ class EntityParser(object):
             return 'LocalDateTime'
         if field_type.startswith('date'):
             return 'LocalDateTime'
+        if field_type.startswith('enum'):
+            return 'String'
 
-        raise Exception("不支持的数据库型: ", field_type)
+        raise Exception("不支持的数据库型: " + field_type)
