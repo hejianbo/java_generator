@@ -56,6 +56,8 @@ class TableNameParser(object):
         :return:
         """
         return {
+            "class_name": self.class_name,
+
             "table_name": self.table_name,
             "entity_name": self.get_entity_name(),
             "entity_package_name": self.dal_config.entity_package,
@@ -72,5 +74,7 @@ class TableNameParser(object):
             "service_name": self.get_service_name(),
             "service_interface_name": self.get_service_interface_name(),
             "service_bo_name": self.get_service_bo_name(),
-            'service_bo_package_name': self.service_config.service_bo_package
+            'service_bo_package_name': self.service_config.service_bo_package,
+            "service_convert_package_name": self.service_config.service_converter_package,
+            "service_convert_name": self.class_name + "Converter",
         }

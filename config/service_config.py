@@ -8,3 +8,4 @@ class ServiceConfig(BaseConfig):
         self.service_package = self.base_package + config.get("template_service", "service_package")
         self.service_bo_package = self.base_package + config.get("template_service", "service_bo_package")
         self.service_bo_suffix = config.get("template_service", "service_bo_suffix")
+        self.service_converter_package = self.base_package + ".service.converter"

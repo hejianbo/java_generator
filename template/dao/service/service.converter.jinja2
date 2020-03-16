@@ -1,0 +1,48 @@
+package {{ names["service_convert_package_name"] }};
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.google.common.collect.Lists;
+
+import {{ names["service_bo_package_name"] }}.{{ names["service_bo_name"] }};
+import {{ names["entity_package_name"] }}.{{ names["entity_name"] }};
+
+public class {{ names["class_name"] }}Converter {
+
+    public static {{ names["service_bo_name"] }} toBO({{ names["entity_name"] }} entity) {
+        if (entity == null) {
+            return null;
+        }
+        return {{ names["service_bo_name"] }}
+                .builder()
+                {% for item in columns %}
+                .{{item["property"]}}(entity.{{item["get_method"]}}){% endfor %}
+                .build();
+    }
+
+    public static List<{{ names["service_bo_name"] }}> toBO(List<{{ names["entity_name"] }}> list) {
+        if(list == null || list.isEmpty()) {
+            return Lists.newArrayList();
+        }
+        return list.stream().map(item->toBO(item)).collect(Collectors.toList());
+    }
+
+    public static {{ names["entity_name"] }} toEntity({{ names["service_bo_name"] }} bo) {
+        if (bo == null) {
+            return null;
+        }
+        return {{ names["entity_name"] }}
+                   .builder()
+                   {% for item in columns %}
+                   .{{item["property"]}}(bo.{{item["get_method"]}}){% endfor %}
+                   .build();
+    }
+
+    public static List<{{ names["entity_name"] }}> toEntity(List<{{ names["service_bo_name"] }}> list) {
+        if(list == null || list.isEmpty()) {
+            return Lists.newArrayList();
+        }
+        return list.stream().map(item->toEntity(item)).collect(Collectors.toList());
+    }
+}

@@ -29,6 +29,7 @@ class EntityParser(object):
             result.append({
                 "property": java_property_name,
                 "property_type": java_property_type,
+                "get_method": "get" + java_property_name[0].upper() + java_property_name[1:] + "()",
                 "column": jdbc_field_name,
                 "jdbc_type": jdbc_field_type,
                 "is_primary": is_primary_key,
@@ -59,7 +60,7 @@ class EntityParser(object):
         if field_type.startswith('char'):
             return 'CHAR'
         if field_type.startswith('text'):
-            return 'TEXT'
+            return 'LONGVARCHAR'
         if field_type.startswith('mediumtext'):
             return 'LONGVARCHAR'
         if field_type.startswith('timestamp'):
