@@ -20,11 +20,11 @@
   <insert id="insert" parameterType="{{ names['entity_package_name'] }}.{{ names['entity_name'] }}"    keyColumn="id" useGeneratedKeys="true" keyProperty="id">
     insert into <include refid="TableName" />
      <trim prefix="(" suffix=")" suffixOverrides="," >
-        {%for column in columns%}<if test="{{ column['property'] }} != null">{{column['column']}},</if>
+        {%for column in columns%}<if test="po.{{ column['property'] }} != null">{{column['column']}},</if>
         {%endfor%}
      </trim>
      <trim prefix="values(" suffix=")" suffixOverrides="," >
-        {%for column in columns%}<if test="{{ po.column['property'] }} != null">#{ po.{{column['property']}}, jdbcType={{column['jdbc_type']}} },</if>
+        {%for column in columns%}<if test="po.{{ column['property'] }} != null">#{ po.{{column['property']}}, jdbcType={{column['jdbc_type']}} },</if>
         {%endfor%}
      </trim>
   </insert>
@@ -47,9 +47,10 @@
   <update id="update">
     update <include refid="TableName" />
     <trim prefix="set " suffixOverrides=",">
-    {% for column in columns %}{% if not column['is_primary']  %}<if test="{{ po.column['property'] }} != null">
-        {{ column['column'] }} = #{ po.{{column['property']}}, jdbcType={{column['jdbc_type']}} },
-    </if>{% endif %}{% endfor %}
+        {% for column in columns %}{% if not column['is_primary']  %}
+        <if test="po.{{ column['property'] }} != null">
+            {{ column['column'] }} = #{ po.{{column['property']}}, jdbcType={{column['jdbc_type']}} },
+        </if>{% endif %}{% endfor %}
     </trim>
     <where>
         and id = #{ po.id, jdbcType=BIGINT }
@@ -59,11 +60,12 @@
   <update id="batchUpdate">
     <foreach collection="list" item="item" separator=";">
         update <include refid="TableName" />
-        <trim prefix="set " suffixOverrides=",">
-        {% for column in columns if column['column'] not in ('id', 'create_time', 'update_time', 'is_deleted')%}<if test="{{ column['property'] }} != null">
-            {{ column['column'] }} = #{ {{column['property']}}, jdbcType={{column['jdbc_type']}} },
-        </if>{% endfor %}
-        </trim>
+            <trim prefix="set " suffixOverrides=",">
+            {% for column in columns if column['column'] not in ('id', 'create_time', 'update_time', 'is_deleted')%}
+            <if test="item.{{ column['property'] }} != null">
+                {{ column['column'] }} = #{ item.{{column['property']}}, jdbcType={{column['jdbc_type']}} },
+            </if>{% endfor %}
+            </trim>
         <where>
             and id = #{ item.id, jdbcType=BIGINT }
         </where>
