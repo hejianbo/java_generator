@@ -108,24 +108,24 @@
             </foreach>
   </select>
 
-  <delete id="deleteById">
+  <update id="deleteById">
     update <include refid="TableName" />
         set is_deleted = 1,
             update_by = #{updateBy, jdbcType=BIGINT}
     where id = #{id, jdbcType=BIGINT}
-  </delete>
+  </update>
 
-  <delete id="batchDeleteByIds">
+  <update id="batchDeleteByIds">
     update <include refid="TableName" />
         set is_deleted = 1,
-            and update_by = #{updateBy, jdbcType=BIGINT}
+            update_by = #{updateBy, jdbcType=BIGINT}
     where
         is_deleted = 0
         and id in
         <foreach collection="list" item="item" open="(" separator="," close=")">
             #{item, jdbcType=BIGINT}
          </foreach>
-  </delete>
+  </update>
   <!-- auto generate code end -->
 
 </mapper>
