@@ -24,7 +24,7 @@
         {%endfor%}
      </trim>
      <trim prefix="values(" suffix=")" suffixOverrides="," >
-        {%for column in columns%}<if test="{{ column['property'] }} != null">#{ {{column['property']}}, jdbcType={{column['jdbc_type']}} },</if>
+        {%for column in columns%}<if test="{{ po.column['property'] }} != null">#{ po.{{column['property']}}, jdbcType={{column['jdbc_type']}} },</if>
         {%endfor%}
      </trim>
   </insert>
@@ -47,13 +47,12 @@
   <update id="update">
     update <include refid="TableName" />
     <trim prefix="set " suffixOverrides=",">
-    {% for column in columns %}{% if not column['is_primary']  %}<if test="{{ column['property'] }} != null">
+    {% for column in columns %}{% if not column['is_primary']  %}<if test="{{ po.column['property'] }} != null">
         {{ column['column'] }} = #{ po.{{column['property']}}, jdbcType={{column['jdbc_type']}} },
     </if>{% endif %}{% endfor %}
     </trim>
     <where>
-        and id = #{ id, jdbcType=BIGINT }
-        and update_by = #{updateBy, jdbcType = BIGINT}
+        and id = #{ po.id, jdbcType=BIGINT }
     </where>
   </update>
 
@@ -66,8 +65,7 @@
         </if>{% endfor %}
         </trim>
         <where>
-            and id = #{ id, jdbcType=BIGINT }
-            and update_by = #{updateBy, jdbcType = BIGINT}
+            and id = #{ item.id, jdbcType=BIGINT }
         </where>
     </foreach>
   </update>
